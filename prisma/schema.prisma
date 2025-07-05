@@ -1,0 +1,61 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model PageEvent {
+  id         String   @id @default(uuid())
+  sessionId  String
+  url        String
+  referrer   String?
+  userAgent  String
+  ip         String?
+  country    String?
+  region     String?
+  deviceType String?
+  timestamp  DateTime @default(now())
+
+  // 关系
+  performance Metric[]
+  errors      Error[]
+  clicks      ClickEvent[]
+}
+
+model Metric {
+  id      String    @id @default(uuid())
+  name    String // FCP/LCP/CLS等
+  value   Float
+  eventId String
+  event   PageEvent @relation(fields: [eventId], references: [id])
+}
+
+model Error {
+  id       String    @id @default(uuid())
+  message  String
+  stack    String?
+  filename String?
+  lineno   Int?
+  colno    Int?
+  eventId  String
+  event    PageEvent @relation(fields: [eventId], references: [id])
+}
+
+model ClickEvent {
+  id       String    @id @default(uuid())
+  x        Int // 点击X坐标
+  y        Int // 点击Y坐标
+  selector String // CSS选择器
+  eventId  String
+  event    PageEvent @relation(fields: [eventId], references: [id])
+}

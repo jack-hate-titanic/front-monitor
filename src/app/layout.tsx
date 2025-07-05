@@ -1,3 +1,12 @@
+/*
+ * @Author: 悦者生存 1002783067@qq.com
+ * @Date: 2025-05-18 10:39:00
+ * @LastEditors: 悦者生存 1002783067@qq.com
+ * @LastEditTime: 2025-05-18 15:13:21
+ * @FilePath: /frontend-monitor/src/app/layout.tsx
+ * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE@
+ */
+import ClientLayout from '@/app/client-layout';
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
@@ -22,12 +31,13 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
   return (
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
+        <ClientLayout>{children}</ClientLayout>
       </body>
     </html>
   );
