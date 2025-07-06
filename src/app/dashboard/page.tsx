@@ -32,6 +32,7 @@ export default function Dashboard() {
         if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`)
         
         const json = await res.json()
+        console.log(json, '11111');
         setData(json)
       } catch (err) {
         console.error('Fetch error:', err)

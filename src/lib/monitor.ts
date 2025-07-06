@@ -36,6 +36,7 @@ class FrontendMonitor {
 
   private initErrorTracking() {
     window.addEventListener('error', (event) => {
+      debugger;
       this.sendError({
         message: event.message,
         stack: event.error?.stack,
@@ -83,14 +84,14 @@ class FrontendMonitor {
 
   async sendError(error: Omit<Error, 'id' | 'eventId'>) {
     await this.sendToServer({
-      type: 'error',
+      type: 'errors',
       ...error
     })
   }
 
   async sendClick(click: Omit<ClickEvent, 'id' | 'eventId'>) {
     await this.sendToServer({
-      type: 'click',
+      type: 'clicks',
       ...click
     })
   }
@@ -107,7 +108,7 @@ class FrontendMonitor {
           url: window.location.href,
           referrer: document.referrer,
           userAgent: navigator.userAgent,
-          ...data
+          [data.type]: [{...data}]
         })
       })
     } catch (err) {
